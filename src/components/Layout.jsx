@@ -1,12 +1,19 @@
 
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { siteConfig } from '../siteConfig'
 
 function Header() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  function closeMenu() {
+    setMenuOpen(false)
+  }
+
   return (
     <header className="header">
       <div className="container header-inner">
-        <NavLink to="/" className="brand">
+        <NavLink to="/" className="brand" onClick={closeMenu}>
           <img src="/logo-heb-clean.png" alt="GilboAir" className="brand-logo" />
         </NavLink>
 
@@ -21,6 +28,45 @@ function Header() {
         <div className="header-actions">
           <a className="link-muted" href={`tel:${siteConfig.phoneHref}`}>{siteConfig.phoneDisplay}</a>
           <a className="btn btn-sm" href={`https://wa.me/${siteConfig.whatsappHref}`} target="_blank" rel="noreferrer">
+            WhatsApp
+          </a>
+        </div>
+
+        <button
+          className={`mobile-menu-toggle ${menuOpen ? 'is-open' : ''}`}
+          type="button"
+          aria-label="פתיחת תפריט"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      </div>
+
+      <div className={`mobile-drawer ${menuOpen ? 'open' : ''}`}>
+        <nav className="mobile-nav">
+          <NavLink to="/" onClick={closeMenu}>בית</NavLink>
+          <NavLink to="/about" onClick={closeMenu}>אודות</NavLink>
+          <NavLink to="/services" onClick={closeMenu}>שירותים</NavLink>
+          <NavLink to="/portfolio" onClick={closeMenu}>גלריה</NavLink>
+          <NavLink to="/contact" onClick={closeMenu}>יצירת קשר</NavLink>
+        </nav>
+
+        <div className="mobile-drawer-actions">
+          <a className="panel mobile-contact-card" href={`tel:${siteConfig.phoneHref}`} onClick={closeMenu}>
+            <strong>טלפון</strong>
+            <span>{siteConfig.phoneDisplay}</span>
+          </a>
+
+          <a
+            className="btn"
+            href={`https://wa.me/${siteConfig.whatsappHref}`}
+            target="_blank"
+            rel="noreferrer"
+            onClick={closeMenu}
+          >
             WhatsApp
           </a>
         </div>

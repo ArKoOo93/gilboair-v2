@@ -12,6 +12,6 @@ COPY package*.json ./
 RUN npm install --omit=dev
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/server ./server
-RUN mkdir -p /app/data
+COPY --from=builder /app/data ./data
 EXPOSE 3000
 CMD ["npm", "run", "start"]
